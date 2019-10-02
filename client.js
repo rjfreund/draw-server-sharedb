@@ -4,6 +4,7 @@ var sharedb = require('sharedb/lib/client');
 var socket = new WebSocket('wss://' + window.location.host);
 var connection = new sharedb.Connection(socket);
 
+//code tutorial: https://github.com/williammalone/Simple-HTML5-Drawing-App
 //window.addEventListener('resize', resizeCanvas);
 var canvas = document.getElementsByTagName('canvas')[0];
 var context = canvas.getContext("2d");
@@ -19,7 +20,7 @@ var clickDrag = [];
 var paint;
 
 canvas.addEventListener('mousedown', function(event){		
-  paint = true;  
+  paint = true;
   addClick(event.pageX - event.target.offsetLeft, event.pageY - event.target.offsetTop);
   redraw();
 
