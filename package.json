@@ -2,6 +2,9 @@
   "name": "sharedb-example-counter",
   "version": "0.0.1",
   "description": "A simple client/server app using ShareDB and WebSockets",
+  "engines": {
+    "node": "10.3.0"
+  },
   "main": "server.js",
   "scripts": {
     "build": "./node_modules/.bin/browserify client.js -o static/dist/bundle.js",
@@ -18,7 +21,7 @@
     "express": "^4.14.0",
     "sharedb": "^1.0.0-beta",
     "@teamwork/websocket-json-stream": "^2.0.0",
-    "ws": "^1.1.0"
+    "ws": ">=3.3.1"
   },
   "devDependencies": {
     "browserify": "^13.0.1"
