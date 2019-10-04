@@ -8,80 +8,64 @@ var connection = new sharedb.Connection(socket);
 //window.addEventListener('resize', resizeCanvas);
 var canvas = document.getElementsByTagName('canvas')[0];
 var context = canvas.getContext("2d");
-function resizeCanvas() {
-  canvas.width = 9999;
-  canvas.height = 9999;
-}
-resizeCanvas();
+var color = document.getElementById('color');
+var lineWidth = document.getElementById('lineWidth');
+canvas.width = 4999;
+canvas.height = 4999;
 
-var clickX = [];
-var clickY = [];
-var clickDrag = [];
-var paint;
-
-canvas.addEventListener('mousedown', function(event){		
-  paint = true;
-  addClick(event.pageX - event.target.offsetLeft, event.pageY - event.target.offsetTop);
-  redraw();
+var isMouseDown;
+canvas.addEventListener('mousedown', function(event){
+  isMouseDown = true;  
+  var drawingPoint = {x: (event.pageX - event.target.offsetLeft), y: (event.pageY - event.target.offsetTop), isMouseDragging: false, color: color.value, lineWidth: parseInt(lineWidth.value)};
+  addDrawingPoint(drawingPoint);
 
 });
 canvas.addEventListener('mousemove', function(e){
-  if(paint){
-    addClick(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop, true);
-    redraw();
+  if(isMouseDown){
+    var drawingPoint = {x: (event.pageX - event.target.offsetLeft), y: (event.pageY - event.target.offsetTop), isMouseDragging: true, color: color.value, lineWidth: parseInt(lineWidth.value)};
+    addDrawingPoint(drawingPoint);
   }
 });
-canvas.addEventListener('mouseup', function(e){ paint = false; });
-canvas.addEventListener('mouseleave', function(e){ paint = false; });
+canvas.addEventListener('mouseup', function(e){ isMouseDown = false; });
+canvas.addEventListener('mouseleave', function(e){ isMouseDown = false; });
 
-function addClick(x, y, dragging)
-{
-  clickX.push(x);
-  clickY.push(y);
-  clickDrag.push(dragging);
-}
-
-function redraw(){
-  context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
-  
-  context.strokeStyle = "#df4b26";
-  context.lineJoin = "round";
-  context.lineWidth = 5;
-			
-  for(var i=0; i < clickX.length; i++) {		
+function draw(drawingPoints){
+  if (!drawingPoints){ return; }
+  context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas			
+  for(var i=0; i < drawingPoints.length; i++) {		      
+    context.strokeStyle = drawingPoints[i].color;
+    context.lineJoin = "round";
+    context.lineWidth = drawingPoints[i].lineWidth;
     context.beginPath();
-    if(clickDrag[i] && i){
-      context.moveTo(clickX[i-1], clickY[i-1]);
+    if(drawingPoints[i].isMouseDragging && i){
+      context.moveTo(drawingPoints[i-1].x, drawingPoints[i-1].y);
      }else{
-       context.moveTo(clickX[i]-1, clickY[i]);
+       context.moveTo(drawingPoints[i].x-1, drawingPoints[i].y);
      }
-     context.lineTo(clickX[i], clickY[i]);
+     context.lineTo(drawingPoints[i].x, drawingPoints[i].y);
      context.closePath();
      context.stroke();
   }
 }
 
 // Create local Doc instance mapped to 'examples' collection document with id 'counter'
-var doc = connection.get('examples', 'counter');
+var doc = connection.get('someCollectionName', 'drawings');
 
 // Get initial value of document and subscribe to changes
-doc.subscribe(showNumbers);
+doc.subscribe(displayDrawingPoints);
 // When document changes (by this client or any other, or the server),
-// update the number on the page
-doc.on('op', showNumbers);
+// update the page
+doc.on('op', displayDrawingPoints);
 
-function showNumbers() {
-  //document.querySelector('#num-clicks').textContent = doc.data.numClicks;
+function displayDrawingPoints() {
+  draw(doc.data);  
 };
 
-// When clicking on the '+1' button, change the number in the local
-// document and sync the change to the server and other connected
-// clients
-function increment() {
-  // Increment `doc.data.numClicks`. See
-  // https://github.com/ottypes/json0 for list of valid operations.
-  doc.submitOp([{p: ['numClicks'], na: 1}]);
+function addDrawingPoint(drawingPoint) {  
+  // See https://github.com/ottypes/json0 for list of valid operations.
+  doc.submitOp([{p: [''], li:drawingPoint}]);
+  //doc.submitOp([{p:[path,idx], li:obj}]);
 }
 
 // Expose to index.html
-global.increment = increment;
+//global.addDrawingPoint = addDrawingPoint;

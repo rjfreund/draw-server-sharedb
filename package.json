@@ -1,7 +1,7 @@
 {
-  "name": "sharedb-example-counter",
-  "version": "0.0.1",
-  "description": "A simple client/server app using ShareDB and WebSockets",
+  "name": "draw-server-sharedb",
+  "version": "1.0.0",
+  "description": "drawing app",
   "engines": {
     "node": "10.3.0"
   },
@@ -11,13 +11,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "watch": "watchify client.js -o ./static/dist/bundle.js",
-    "launch": "npm-run-all --parallel watch start"    
+    "launch": "npm-run-all --parallel watch start"
   },
-  "author": "Dmitry Kharitonov <geakstr@me.com> (https://dkharitonov.me/)",
-  "contributors": [
-    "Dmitry Kharitonov <geakstr@me.com> (https://dkharitonov.me/)",
-    "Avital Oliver <avital@aoliver.org> (https://aoliver.org/)"
-  ],
+  "author": "R.J. Freund",
   "license": "MIT",
   "dependencies": {
     "@teamwork/websocket-json-stream": "^2.0.0",
