@@ -32,7 +32,7 @@ canvas.addEventListener('mouseleave', function(e){ isMouseDown = false; });
 function draw(drawingPoints){
   if (!drawingPoints){ return; }
   context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas			
-  for(var i=0; i < drawingPoints.length; i++) {		      
+  for(var i=drawingPoints.length-1; i >= 0 ; i--) {		      
     context.strokeStyle = drawingPoints[i].color;
     context.lineJoin = "round";
     context.lineWidth = drawingPoints[i].lineWidth;
