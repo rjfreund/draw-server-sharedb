@@ -40,13 +40,12 @@ function draw(drawingPoints){
     context.beginPath();
     if (i>1 && drawingPoints[i-1].isMouseDragging && drawingPoints[i].isMouseDragging){
       context.moveTo(drawingPoints[i-1].x, drawingPoints[i-1].y);
-    
-     }else{
-       context.moveTo(drawingPoints[i].x-1, drawingPoints[i].y);
-     }
-     context.lineTo(drawingPoints[i].x, drawingPoints[i].y);
-     //context.closePath();
-     context.stroke();
+    }else{
+      context.moveTo(drawingPoints[i].x-1, drawingPoints[i].y);
+    }
+    context.lineTo(drawingPoints[i].x, drawingPoints[i].y);
+    //context.closePath();
+    context.stroke();
   }
 }
 
@@ -68,6 +67,3 @@ function addDrawingPoint(drawingPoint) {
   doc.submitOp([{p: [''], li:drawingPoint}]);
   //doc.submitOp([{p:[path,idx], li:obj}]);
 }
-
-// Expose to index.html
-//global.addDrawingPoint = addDrawingPoint;
