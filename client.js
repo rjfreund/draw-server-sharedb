@@ -1,7 +1,7 @@
 var sharedb = require('sharedb/lib/client');
 
 // Open WebSocket connection to ShareDB server
-var socket = new WebSocket('wss://' + window.location.host);
+var socket = new WebSocket('ws://' + window.location.host);
 var connection = new sharedb.Connection(socket);
 
 //code tutorial: https://github.com/williammalone/Simple-HTML5-Drawing-App
