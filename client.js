@@ -32,18 +32,20 @@ canvas.addEventListener('mouseleave', function(e){ isMouseDown = false; });
 function draw(drawingPoints){
   if (!drawingPoints){ return; }
   context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas			
-  for(var i=drawingPoints.length-1; i >= 0 ; i--) {		      
+  for(var i=0; i < drawingPoints.length; i++) {		      
     context.strokeStyle = drawingPoints[i].color;
     context.lineJoin = "round";
+    context.lineCap='round';
     context.lineWidth = drawingPoints[i].lineWidth;
     context.beginPath();
-    if(drawingPoints[i].isMouseDragging && i){
+    if (i>1 && drawingPoints[i-1].isMouseDragging && drawingPoints[i].isMouseDragging){
       context.moveTo(drawingPoints[i-1].x, drawingPoints[i-1].y);
+    
      }else{
        context.moveTo(drawingPoints[i].x-1, drawingPoints[i].y);
      }
      context.lineTo(drawingPoints[i].x, drawingPoints[i].y);
-     context.closePath();
+     //context.closePath();
      context.stroke();
   }
 }
