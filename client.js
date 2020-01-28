@@ -93,28 +93,28 @@ lineWidth.addEventListener('change', function(event){
 })
 
 var isMouseDown;
-canvas.addEventListener('mousedown', throttle(function(event){
+canvas.addEventListener('mousedown', function(event){
   isMouseDown = true;
   ringDiv.style.display = 'none';
   var drawingPoint = {x: (event.pageX - event.target.offsetLeft), y: (event.pageY - event.target.offsetTop), isMouseDragging: false, color: color.value, lineWidth: parseInt(lineWidth.value)};
   addDrawingPoint(drawingPoint);
-}), 250);
-canvas.addEventListener('mousemove', throttle(function(e){
+});
+canvas.addEventListener('mousemove', function(e){  
   if(isMouseDown){
     var drawingPoint = {x: (event.pageX - event.target.offsetLeft), y: (event.pageY - event.target.offsetTop), isMouseDragging: true, color: color.value, lineWidth: parseInt(lineWidth.value)};
     addDrawingPoint(drawingPoint);
   }
-}), 250);
-canvas.addEventListener('mouseup', throttle(function(e){ 
+});
+canvas.addEventListener('mouseup', function(e){ 
   isMouseDown = false; 
-  ringDiv.style.display = 'absolute';
+  ringDiv.style.display = 'block';
   var drawingPoint = {x: (event.pageX - event.target.offsetLeft), y: (event.pageY - event.target.offsetTop), isMouseDragging: false, color: color.value, lineWidth: parseInt(lineWidth.value)};
   addDrawingPoint(drawingPoint);
-}), 250);
-canvas.addEventListener('mouseleave', throttle(function(e){ 
+});
+canvas.addEventListener('mouseleave', function(e){ 
   isMouseDown = false; 
-  ringDiv.style.display = 'absolute';
-}), 250);
+  ringDiv.style.display = 'block';
+});
 
 function draw(drawingPoints){
   if (!drawingPoints){ return; }
